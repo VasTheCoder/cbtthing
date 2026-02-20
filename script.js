@@ -722,7 +722,12 @@ function evaluateAnswer(userAnswer, correctAnswer, sectionType, marksElement) {
     // evaluates the marks for the answer and changes the marks input field's value and colour
     if (sectionType === "SCQ" || sectionType === "Match the following (ABCD)" || sectionType === "Numerical") {
         if (userAnswer === correctAnswer) {
-            marksElement.value = 4;
+            const preset = document.getElementById("presetSelect").value;
+            if (preset === "JEE Adv (Paper 1)" || preset === "JEE Adv (Paper 2)") {
+                marksElement.value = 3;
+            } else {
+                marksElement.value = 4;
+            }
             marksElement.style.backgroundColor = "green";
         } else if (!userAnswer) {
             marksElement.value = 0;
