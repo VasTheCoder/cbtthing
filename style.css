@@ -1,0 +1,83 @@
+* {
+    margin: 0;
+}
+
+body {
+    height: 100vh;
+    font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif, sans-serif;
+}
+
+
+.popup h2 {
+    display: grid;
+    align-content: center;
+    justify-content: center;
+    align-items: center;
+    gap: 1.5vw;
+    position: static;
+    margin-bottom: 20px;
+}
+
+.popup {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background: white;
+    padding: 30px;
+    border-radius: 10px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
+    z-index: 1000;
+    max-height: 100vh;
+    overflow: scroll;
+}
+
+#timerDisplay {
+    position: fixed;
+    top: 10px;
+    right: 10px;
+    background: rgba(0, 0, 0, 0.5);
+    color: white;
+    padding: 10px 20px;
+    border-radius: 5px;
+    font-size: 18px;
+    z-index: 1001;
+}
+
+#questionPaper {
+    width: 100%;
+    height: 85vh;
+    border: none;
+}
+
+#answerinput {
+    height: 90vh;
+    overflow-y: scroll;
+}
+
+#qnpalletteContainer {
+    height: 90vh;
+    overflow-y: scroll;
+}
+
+.btn-review {
+    background-color: rgb(74, 16, 94);
+    color: white;
+    border-radius: 999px;
+}
+.btn-review:hover {
+    background-color: rgb(152, 20, 196);
+    color: white;
+}
+
+.btn-answered {
+    color: rgb(35, 225, 35);
+}
+
+button {
+    margin: 2px;
+}
+
+#subjectNav {
+    font-size: large;
+}

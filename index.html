@@ -1,12 +1,221 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <!-- Bootstrap CSS and JS-->
+    <!-- Latest compiled and minified CSS -->
+    <link
+      rel="stylesheet"
+      href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css"
+    />
+    <!-- jQuery library -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+    <!-- Latest compiled JavaScript -->
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
     <title>My thing for cbts yay</title>
-</head>
-<body>
-    <h1>This will eventually become a cool ass website dw.</h1>
-
-</body>
+    <link rel="stylesheet" href="style.css" />
+  </head>
+  <body>
+    <!-- --------------- Pre Test Setup Popup ------------------->
+    <div class="container-fluid popup" id="preTestSetup">
+      <h2>Select Test</h2>
+      <div class="row">
+        <div class="col-sm-6">
+          <div class="form-group">
+            <label for="presetSelect">Select Preset:</label>
+            <select class="form-control" id="presetSelect">
+              <option>(Nothing Selected)</option>
+              <option>JEE MAINS (20 SCQ, 5 Numerical)</option>
+              <option>JEE MAINS (20 SCQ, 10 Numerical)</option>
+              <option>JEE ADV (Paper 1)</option>
+              <option>JEE ADV (Paper 2)</option>
+              <option>Custom</option>
+            </select>
+          </div>
+          <div class="container-sm" id="SubjectDetails">
+            <h4>Subject Details</h4>
+            <form class="form-inline" id="subjectForm" style="display: none">
+              <div class="form-group">
+                <label for="subjectNameInput">Add Subject</label>
+                <input
+                  type="text"
+                  class="form-control"
+                  id="subjectNameInput"
+                  placeholder="Enter subject name"
+                />
+              </div>
+              <button id="addSubjectBtn" class="btn btn-default">
+                Add Subject to List
+              </button>
+            </form>
+            <div
+              class="container-sm"
+              id="SubjectList"
+              style="display: none"
+            ></div>
+          </div>
+          <div class="form-group" id="fileForm" style="display: none">
+            <label for="fileInput">Upload Test File:</label>
+            <input type="file" id="fileInput" class="form-control" />
+            <label for="fileLinkInput"> or paste test link:</label>
+            <input
+              type="text"
+              class="form-control"
+              id="fileLinkInput"
+              placeholder="Enter file link"
+            />
+          </div>
+        </div>
+        <div class="col-sm-6">
+          <button
+            id="sectionForm"
+            class="btn btn-default"
+            style="display: none"
+          >
+            Add Section
+          </button>
+          <h4>Section Details</h4>
+          <div
+            class="container-sm"
+            id="SectionList"
+            style="display: none"
+          ></div>
+          <div class="form-group form-inline">
+            <label for="timeInput">Total Time (in minutes):</label>
+            <input
+              type="number"
+              class="form-control"
+              id="timeInput"
+              value="180"
+              min="1"
+            />
+            <button
+              type="submit"
+              class="btn btn-primary center-block"
+              id="startTestBtn"
+            >
+              Start Test
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!-- --------------- Test Interface ------------------->
+    <div class="container-fluid" id="testInterface" style="display: none">
+      <!-- Timer Display -->
+      <div class="col-sm-12 text-center">
+        <h3 id="timerDisplay">Time Remaining: 00:00</h3>
+      </div>
+      <div class="row">
+        <!-- Upload another file or paste another link (inline) -->
+        <div class="col-sm-12">
+          <div class="form-group form-inline" id="fileFormInline">
+            <label for="fileInputInline">Upload Another File:</label>
+            <input type="file" id="fileInputInline" class="form-control" />
+            <label for="fileLinkInputInline"> or paste another link:</label>
+            <input
+              type="text"
+              class="form-control"
+              id="fileLinkInputInline"
+              placeholder="Enter file link"
+            />
+            <button id="loadNewFile" class="btn btn-default">
+              Load New File
+            </button>
+          </div>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-sm-7">
+          <!-- Question Paper Display -->
+          <div class="container-fluid">
+            <div class="row">
+              <iframe id="questionPaper"></iframe>
+            </div>
+            <div class="row" id="responseButtons">
+              <div class="col-sm-10 text-left">
+                <button class="btn btn-success" id="saveAndNext">
+                  Save and Next
+                </button>
+                <button class="btn btn-warning" id="saveAndMarkForReview">
+                  Save and Mark for Review
+                </button>
+                <button class="btn btn-default" id="clearResponse">
+                  Clear Response
+                </button>
+                <button class="btn btn-primary" id="markForReviewAndNext">
+                  Mark for Review and Next
+                </button>
+              </div>
+              <div class="col-sm-2 text-right">
+                <button class="btn btn-primary" id="submitTest">
+                  Submit Test
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="col-sm-2">
+          <div id="answerinput">
+            <!-- area for us to show the solutions and the user can check them
+            the user will also be able to change the marks awarded for each question in this section -->
+            <!--<table class="table table-condensed">
+              <thead>
+                <tr>
+                  <th>Qn no</th>
+                  <th>Your answer</th>
+                  <th>Correct answer</th>
+                  <th>Marks Awarded</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  Section one
+                </tr>
+                <tr>
+                  <td>1</td>
+                  <td>A</td>
+                  <td>A</td>
+                  <td><input type="number" value="4" min="0" max="4" /></td>
+                </tr>
+                <tr>
+                  <td>2</td>
+                  <td>B</td>
+                  <td>C</td>
+                  <td><input type="number" value="0" min="0" max="4" /></td>
+                </tr>
+                <tr>
+                  Section two
+                </tr>
+                <tr>
+                  <td>21</td>
+                  <td>2</td>
+                  <td>2</td>
+                  <td><input type="number" value="4" min="0" max="4" /></td>
+                </tr>
+              </tbody>
+            </table>-->
+          </div>
+        </div>
+        <div class="col-sm-3" id="qnpalletteContainer">
+          <nav class="navbar navbar-default" id="exampleButtons">
+            <button class="btn btn-default">Not Visited</button>
+            <button class="btn btn-danger">Not Answered</button>
+            <button class="btn btn-success">Answered</button>
+            <button class="btn btn-review">Marked for Review</button>
+            <button class="btn btn-review btn-answered">
+              Answered and Marked for Review
+            </button>
+          </nav>
+          <div id="qnpallette">
+            <!-- Question Navigation Pallette -->
+            <nav class="navbar navbar-default" id="subjectNav"></nav>
+            <div id="questionNumbers"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </body>
+  <script src="script.js"></script>
 </html>
